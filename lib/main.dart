@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,7 +9,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
 
 class HomeApp extends StatefulWidget {
   const HomeApp({Key? key}) : super(key: key);
-
   @override
   State<HomeApp> createState() => _HomeAppState();
 }
@@ -107,6 +106,21 @@ class _HomeAppState extends State<HomeApp> {
     });
   }
 
+  // To hide top status bar ->
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    super.dispose();
+  }
+
+  // Build function ->
   @override
   Widget build(BuildContext context) {
     return Scaffold(
