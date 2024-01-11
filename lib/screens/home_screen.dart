@@ -2,6 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stop_watch/constants/colors.dart';
+import 'package:stop_watch/widgets/custom_button.dart';
+
+import '../widgets/custom_timer.dart';
+import '../widgets/laps.dart';
 
 class HomeApp extends StatefulWidget {
   const HomeApp({Key? key}) : super(key: key);
@@ -135,22 +140,17 @@ class _HomeAppState extends State<HomeApp> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               //?? Timer
-              Center(
-                child: Text(
-                  "$digitHours:$digitMinutes:$digitSeconds",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 82.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+              CustomTimer(
+                digitHours: digitHours,
+                digitMinutes: digitMinutes,
+                digitSeconds: digitSeconds,
               ),
 
               //?? Container for time lapses
               Container(
                 height: 400.0,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF323F68),
+                  color: cardColor,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
 
@@ -158,28 +158,7 @@ class _HomeAppState extends State<HomeApp> {
                 child: ListView.builder(
                   itemCount: laps.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Lap: ${index + 1}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            "${laps[index]}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                    return Laps(laps: laps, index: index);
                   },
                 ),
               ),
@@ -189,26 +168,15 @@ class _HomeAppState extends State<HomeApp> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        (!started) ? start() : stop();
-                      },
-                      shape: const StadiumBorder(
-                        side: BorderSide(color: Colors.greenAccent),
-                      ),
-                      child: Text(
-                        (!started) ? "Start" : "Pause",
-                        style: const TextStyle(
-                          color: Colors.deepOrangeAccent,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
+                  //*** Start or stop ->
+                  CustomButton(
+                    text: (!started) ? "Start" : "Pause",
+                    onTap: () {
+                      (!started) ? start() : stop();
+                    },
+                    color: (!started) ? Colors.cyan : Colors.orangeAccent,
                   ),
                   const SizedBox(width: 8.0),
-
                   //?? Flag Icon
                   IconButton(
                     onPressed: () {
@@ -218,27 +186,14 @@ class _HomeAppState extends State<HomeApp> {
                     icon: const Icon(Icons.flag),
                   ),
                   const SizedBox(width: 8.0),
-
                   //?? Reset Button
-                  Expanded(
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        reset();
-                        deleteLapses();
-                      },
-                      fillColor: Colors.cyanAccent,
-                      shape: const StadiumBorder(
-                        side: BorderSide(color: Colors.purple),
-                      ),
-                      child: const Text(
-                        "Reset",
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
+                  CustomButton(
+                    text: 'Reset',
+                    onTap: () {
+                      reset();
+                      deleteLapses();
+                    },
+                    color: Colors.purple,
                   ),
                 ],
               ),
