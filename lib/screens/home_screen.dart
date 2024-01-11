@@ -113,27 +113,27 @@ class _HomeAppState extends State<HomeApp> {
   //?? Build function ->
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF1C2757),
-      body: SafeArea(
-        child: Padding(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Stop Watch',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.8,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 2.0,
+        ),
+        body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Center(
-                child: Text(
-                  "Stop Watch Flutter",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-
               //?? Timer
               Center(
                 child: Text(
